@@ -1,0 +1,112 @@
+/* styles/LoginPrompt.css */
+
+.login-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-prompt-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.login-prompt {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.visible .login-prompt {
+    transform: translateY(0);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #ff5773;
+}
+
+.prompt-icon {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #ff5773;
+}
+
+.login-prompt h3 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.login-prompt p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.prompt-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-btn,
+.continue-btn {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-btn {
+    background-color: #ff5773;
+    color: white;
+    border: none;
+}
+
+.login-btn:hover {
+    background-color: #e04a65;
+    transform: translateY(-2px);
+}
+
+.continue-btn {
+    background-color: transparent;
+    border: 2px solid #ddd;
+    color: #2c3e50;
+}
+
+.continue-btn:hover {
+    border-color: #ff5773;
+    color: #ff5773;
+    transform: translateY(-2px);
+}

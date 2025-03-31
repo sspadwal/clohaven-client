@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app {
+    /* max-width: 1200px; */
+    /* margin: 0 auto; */
+    /* padding: 20px; */
+    font-family: Arial, sans-serif;
+}
+
+.product-list {
+    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}

@@ -1,0 +1,129 @@
+.products-page {
+    padding: 2rem;
+    margin: 0 auto;
+    background: #f5f7fa;
+}
+
+.products-page h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.category-select {
+    margin: 0 auto 2rem auto;
+    padding: 12px 40px 12px 20px;
+    /* Extra right padding for arrow */
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    min-width: 300px;
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    display: block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%235e5689" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 14px;
+    /* Slightly larger arrow for visibility */
+    color: #2c3e50;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    /* For smooth arrow animation */
+}
+
+.category-select:hover {
+    border-color: #ff5773;
+    box-shadow: 0 6px 20px rgba(255, 87, 115, 0.2);
+    transform: translateY(-2px);
+    /* Subtle lift effect */
+}
+
+.category-select:focus {
+    border-color: #ff5773;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 87, 115, 0.3);
+    transform: scale(1.02);
+    /* Slight scale for focus feedback */
+}
+
+.category-select option {
+    padding: 10px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #fff;
+    transition: background 0.2s ease;
+    /* Smooth option hover */
+}
+
+.category-select option:hover {
+    background: #f5f7fa;
+    /* Light hover effect for options */
+}
+
+
+/* Smooth arrow animation */
+
+.category-select::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #5e5689;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease-in-out;
+    pointer-events: none;
+    /* Prevents interference with clicks */
+}
+
+.category-select:focus::after {
+    transform: translateY(-50%) rotate(180deg);
+    /* Arrow flips when focused */
+}
+
+
+/* Ensure ProductList styles take precedence */
+
+.product-list {
+    padding: 0;
+}
+
+
+/* Responsive adjustments */
+
+@media (max-width: 600px) {
+    .products-page h1 {
+        font-size: 2rem;
+    }
+    .category-select {
+        min-width: 100%;
+        max-width: 100%;
+        padding: 10px 35px 10px 15px;
+        /* Adjusted for arrow */
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-page {
+        padding: 1.5rem;
+    }
+    .category-select {
+        padding: 8px 30px 8px 12px;
+        font-size: 0.95rem;
+    }
+}
