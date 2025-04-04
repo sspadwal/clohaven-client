@@ -9,8 +9,9 @@ import Signup from './components/Signup';
 import Cart from './components/Cart';
 import Profile from './components/Profile';
 import AdminDashboard from './components/AdminDashboard';
-import './styles/App.css';
+import Checkout from './components/Checkout'; // Add Checkout import
 import SingleProduct from './components/SingleProduct';
+import './styles/App.css';
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -51,7 +52,7 @@ function App() {
       const response = await axios.get(`${API_URL}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setCartItemCount(response.data.items?.length || 0);
+      setCartItemCount(response.data.items?.reduce((sum, item) => sum + item.quantity, 0) || 0);
     } catch (error) {
       console.error('Error fetching cart count:', error);
     }
@@ -81,7 +82,7 @@ function App() {
     };
 
     fetchData();
-  }, [selectedCategory]);
+  }, [selectedCategory, API_URL]);
 
   const login = (email, password, navigate, setError) => {
     axios.post(`${API_URL}/api/auth/login`, { email, password })
@@ -126,7 +127,6 @@ function App() {
 
   const addToCart = async (productId, quantity = 1) => {
     if (!token) {
-      // Consider redirecting to login instead of alert
       return;
     }
 
@@ -134,7 +134,7 @@ function App() {
       await axios.post(`${API_URL}/api/cart`, { productId, quantity }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setCartItemCount(prevCount => prevCount + quantity);
+      fetchCartCount(); // Update cart count after adding item
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -189,6 +189,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Cart token={token} updateCartCount={fetchCartCount} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout token={token} updateCartCount={fetchCartCount} />
               </ProtectedRoute>
             }
           />

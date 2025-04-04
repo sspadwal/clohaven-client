@@ -18,7 +18,7 @@ function SingleProduct({ addToCart, token }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        console.log(`Fetching product from: ${API_URL}/products/${id}`);
+        console.log(`Fetching product from: ${API_URL}/api/products/${id}`);
         const response = await axios.get(`${API_URL}/api/products/${id}`);
         console.log('Product data:', response.data);
         setProduct(response.data);
@@ -31,7 +31,7 @@ function SingleProduct({ addToCart, token }) {
       }
     };
     fetchProduct();
-  }, [id]);
+  }, [id, API_URL]);
 
   const handleAddToCart = () => {
     if (!token) {
@@ -41,7 +41,21 @@ function SingleProduct({ addToCart, token }) {
     }
   };
 
-  
+  const handleBuyNow = async () => {
+    if (!token) {
+      setShowLoginPrompt(true);
+    } else {
+      try {
+        // Add the product to the cart
+        await addToCart(id, quantity);
+        // Redirect to checkout
+        navigate('/checkout');
+      } catch (error) {
+        console.error('Error during Buy Now:', error);
+        setError('Failed to proceed to checkout. Please try again.');
+      }
+    }
+  };
 
   const incrementQuantity = () => setQuantity(prev => Math.min(prev + 1, 10));
   const decrementQuantity = () => setQuantity(prev => Math.max(prev - 1, 1));
@@ -136,8 +150,6 @@ function SingleProduct({ addToCart, token }) {
               )}
             </div>
 
-            
-
             <div className="product-description">
               <h3>Description</h3>
               <p>{product.description || 'No description available.'}</p>
@@ -188,7 +200,7 @@ function SingleProduct({ addToCart, token }) {
                 <span className="cart-icon">🛒</span>
                 Add to Cart
               </button>
-              <button className="buy-now-btn">
+              <button onClick={handleBuyNow} className="buy-now-btn">
                 Buy Now
               </button>
               <button className="wishlist-btn">
@@ -226,7 +238,6 @@ function SingleProduct({ addToCart, token }) {
         </div>
       </div>
 
-      {/* Login Prompt Modal */}
       {showLoginPrompt && (
         <LoginPrompt 
           onClose={() => setShowLoginPrompt(false)}

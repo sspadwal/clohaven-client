@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Cart.css';
 
 function Cart({ token, updateCartCount }) {
@@ -7,6 +8,7 @@ function Cart({ token, updateCartCount }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -23,6 +25,7 @@ function Cart({ token, updateCartCount }) {
           totalItems
         });
         updateCartCount(totalItems);
+        console.log('Cart fetched in Cart.jsx:', { items, totalItems });
       } catch (err) {
         setError('Failed to load cart');
         console.error('Error fetching cart:', err);
@@ -32,7 +35,7 @@ function Cart({ token, updateCartCount }) {
     };
 
     if (token) fetchCart();
-  }, [token, updateCartCount, API_URL]);
+  }, [token, updateCartCount, API_URL]); // Added updateCartCount as dependency
 
   const updateQuantity = async (productId, newQuantity) => {
     if (newQuantity < 1) return;
@@ -89,21 +92,9 @@ function Cart({ token, updateCartCount }) {
     }
   };
 
-  const checkout = async () => {
-    try {
-      setLoading(true);
-      await axios.post(
-        `${API_URL}/api/cart/checkout`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setCart({ items: [], totalItems: 0 });
-      updateCartCount(0);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Checkout failed. Please try again.');
-      console.error('Error during checkout:', err);
-    } finally {
-      setLoading(false);
+  const handleCheckout = () => {
+    if (cart.items.length > 0) {
+      navigate('/checkout');
     }
   };
 
@@ -180,7 +171,7 @@ function Cart({ token, updateCartCount }) {
             </div>
             <button
               className="checkout-btn"
-              onClick={checkout}
+              onClick={handleCheckout}
               disabled={loading || cart.items.length === 0}
             >
               {loading ? 'Processing...' : 'Proceed to Checkout'}
